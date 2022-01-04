@@ -1,5 +1,6 @@
 
 var _currentObject;
+var _currentIdList = [];
 class GraphTree {
     _orgNodeList;
     _maxNodeList = [];
@@ -82,6 +83,7 @@ class GraphTree {
                     {
                         edge._isMaxChord = false;
                         child._parentNode = parentNode;
+                        parentNode._maxChildren.push(child);
                         child._level = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
@@ -194,6 +196,7 @@ class GraphTree {
                     {
                         edge._isMinChord = false;
                         child._parentNode = parentNode;
+                        parentNode._minChildren.push(child);
                         child._level = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
@@ -320,6 +323,58 @@ class GraphTree {
         }
 
         return result;
+    }
+
+    Cutter(tree, edgeList)
+    {
+        //// tree deki yaprakları bul
+        //// yaprakların tüm edgeleri kesilecek
+        //// 
+        
+        for (let i = tree.length -1; i < tree.length; i++) {
+            const level = tree[i];
+
+            for (let j = 0; j < level.length; j++) {
+                const node = level[j];
+
+                
+            }
+            
+        }
+
+    }
+
+
+    
+    GetNestedSet(tree, node)
+    {
+        let nodeList = [];
+        _currentIdList = [];
+
+        node._maxChildren.forEach(element => {
+            nodeList.push(element);
+            _currentIdList.push(element._id);
+        });
+
+        for (let i = node._level+2; i < tree.length; i++) {
+            const row = tree[i];
+
+            var childNodes = row.filter(function (el) {
+                var node = _currentIdList.includes(el._parentNode._id);
+                if(node)
+                {
+                    _currentIdList.push(el._id);
+                    nodeList.push(el);
+                }
+                return node;
+            });
+        }
+        return nodeList;
+
+
+        /////////
+
+
     }
     
   }

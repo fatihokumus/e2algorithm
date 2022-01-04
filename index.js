@@ -82,6 +82,11 @@ var gt = new GraphTree(nList, eList);
 maxtree = gt.CreateMaxTree();
 mintree = gt.CreateMinTree();
 
+
+var node = maxtree[1][3];
+
+var tt = gt.GetNestedSet(maxtree, 1, node);
+
 for (let i = 0; i < maxtree.length; i++)
 {
     const level = maxtree[i];
@@ -119,3 +124,5 @@ for (let i = 0; i < mintree.length; i++)
         
     }
 }
+
+

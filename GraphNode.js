@@ -5,6 +5,8 @@ class GraphNode {
     _id; // sıralama için
     _label;
     _parentNode; // ağacı oluşturmak için
+    _maxChildren; // ağacı oluşturmak için
+    _minChildren; // ağacı oluşturmak için
     _degree; // düğüm derecesi
     _level; // ağaçtaki seviyesi
     _queeIndex; // Kuyruktaki sırası (ağaca girme sırası)
@@ -17,11 +19,11 @@ class GraphNode {
         this._isInTree = false;
         this._degree = 0;
         this._level =0;
+        this._maxChildren =[];
+        this._minChildren =[];
     }
     
-    get nestedList() {
-        return 0;
-    }
+   
 
     get linkedNodes() {
         return 0;
