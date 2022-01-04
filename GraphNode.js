@@ -11,8 +11,12 @@ class GraphNode {
     _parentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
     _isInTree; // ağaca girmişse tekrar bakmamak için
 
-    constructor(label) {
+    constructor(label, id) {
         this._label = label;
+        this._id = id;
+        this._isInTree = false;
+        this._degree = 0;
+        this._level =0;
     }
     
     get nestedList() {
@@ -22,9 +26,38 @@ class GraphNode {
     get linkedNodes() {
         return 0;
     }
+
+    increaseDegree() {
+        if(this._degree == undefined || this._degree == null)
+        {
+            this._degree = 0;
+        }
+        this._degree++;
+    }
+
+    decreaseDegree() {
+        if(this._degree == undefined || this._degree == null)
+        {
+            this._degree = 0;
+        }
+        else
+        {
+            this._degree--;
+        }
+            
+    }
+
+
+    copy()
+    {
+        let data = new GraphNode();
+        
+        for (var attr in this) {
+            if (this.hasOwnProperty(attr)) data[attr] = this[attr];
+        }
+
+        return data;
+
+    }
   
   }
-
-
-  
-  module.exports = GraphNode
