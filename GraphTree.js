@@ -80,6 +80,7 @@ class GraphTree {
 
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
+                        edge._isMaxChord = false;
                         child._parentNode = parentNode;
                         child._level = i;
                         child._queeIndex = qi;
@@ -88,6 +89,8 @@ class GraphTree {
                         child._degree--;
                         treeList[i].push(child);
                         tempQuee.push(child);
+                        this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
+                        qi++;
                     }
                     else 
                     {
@@ -103,7 +106,7 @@ class GraphTree {
                         });
                         
 
-                        // eğer komşu daha önce tenp liste eklendiyse derecesini azaltalım
+                        // eğer komşu daha önce temp liste eklendiyse derecesini azaltalım
                         var filteredTempObject = tempQuee.filter(function (el) {
                             return el._id == objId;
                         });
@@ -114,9 +117,6 @@ class GraphTree {
                         
                     }
                     
-                    
-                    this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
-                    qi++;
                 });
     
                 parentNode = this.GetMaxDegreeNodeFromTemp(tempQuee);
@@ -192,6 +192,7 @@ class GraphTree {
 
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
+                        edge._isMinChord = false;
                         child._parentNode = parentNode;
                         child._level = i;
                         child._queeIndex = qi;
@@ -200,6 +201,9 @@ class GraphTree {
                         child._degree--;
                         treeList[i].push(child);
                         tempQuee.push(child);
+                        
+                        this._minNodeList.splice(this._minNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
+                        qi++;
                     }
                     else 
                     {
@@ -227,8 +231,6 @@ class GraphTree {
                     }
                     
                     
-                    this._minNodeList.splice(this._minNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
-                    qi++;
                 });
     
                 parentNode = this.GetMinDegreeNodeFromTemp(tempQuee);
@@ -257,7 +259,7 @@ class GraphTree {
     {
         let result;
         let i = this._minNodeList.length;
-        for (let s = i-1; s >= 0; s--) {
+        for (let s = 0; s < i; s++) {
             const element = this._minNodeList[s];
             if(element._degree < i)
             {
@@ -299,7 +301,7 @@ class GraphTree {
 
         let i = tempQuee.length;
 
-        for (let s = i-1; s >= 0; s--) {
+        for (let s = 0; s < i; s++) {
             const element = tempQuee[s];
             if(element._degree < i)
             {
