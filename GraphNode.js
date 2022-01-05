@@ -4,13 +4,16 @@ class GraphNode {
     
     _id; // sıralama için
     _label;
-    _parentNode; // ağacı oluşturmak için
+    _maxParentNode; // ağacı oluşturmak için
+    _minParentNode; // ağacı oluşturmak için
     _maxChildren; // ağacı oluşturmak için
     _minChildren; // ağacı oluşturmak için
     _degree; // düğüm derecesi
-    _level; // ağaçtaki seviyesi
+    _maxLevel; // ağaçtaki seviyesi
+    _minLevel; // ağaçtaki seviyesi
     _queeIndex; // Kuyruktaki sırası (ağaca girme sırası)
-    _parentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
+    _maxParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
+    _minParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
     _isInTree; // ağaca girmişse tekrar bakmamak için
 
     constructor(label, id) {
@@ -18,17 +21,12 @@ class GraphNode {
         this._id = id;
         this._isInTree = false;
         this._degree = 0;
-        this._level =0;
+        this._maxLevel =0;
+        this._minLevel =0;
         this._maxChildren =[];
         this._minChildren =[];
     }
     
-   
-
-    get linkedNodes() {
-        return 0;
-    }
-
     increaseDegree() {
         if(this._degree == undefined || this._degree == null)
         {

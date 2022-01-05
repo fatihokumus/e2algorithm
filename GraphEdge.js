@@ -12,6 +12,7 @@ class GraphEdge {
         this._id = id;
         this._isMaxChord = true;
         this._isMinChord = true;
+        this._cutCount =0;
         node1.increaseDegree();
         node2.increaseDegree();
         this._node1 = node1;

@@ -1,6 +1,11 @@
 
 var _currentObject;
 var _currentIdList = [];
+var _currentNode = [];
+var _currentOtherNode;
+var _currentNestedNode;
+var _currentNestedList = [];
+
 class GraphTree {
     _orgNodeList;
     _maxNodeList = [];
@@ -22,8 +27,8 @@ class GraphTree {
         var treeList = [];
         var tempQuee = [];
         var root = this.GetMaxDegreeNode();
-        root._level = 0;
-        root._parentNode = null;
+        root._maxLevel = 0;
+        root._maxParentNode = null;
         treeList[0] = [root];  // ilk elemanın  da dizi olması için
         
         this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == root._id), 1); // ağaca eklediğimizi diziden çıkarıyoruz
@@ -35,7 +40,7 @@ class GraphTree {
 
         while(this._maxNodeList.length>0)
         {
-            i = parentNode._level + 1;
+            i = parentNode._maxLevel + 1;
             if(treeList[i] == undefined || treeList[i] == null || treeList[i].length == 0)
             {
                 treeList[i] = [];
@@ -82,12 +87,12 @@ class GraphTree {
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
                         edge._isMaxChord = false;
-                        child._parentNode = parentNode;
+                        child._maxParentNode = parentNode;
                         parentNode._maxChildren.push(child);
-                        child._level = i;
+                        child._maxLevel = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
-                        child._parentNodeEdge = edge;
+                        child._maxParentNodeEdge = edge;
                         child._degree--;
                         treeList[i].push(child);
                         tempQuee.push(child);
@@ -135,8 +140,8 @@ class GraphTree {
         var treeList = [];
         var tempQuee = [];
         var root = this.GetMinDegreeNode();
-        root._level = 0;
-        root._parentNode = null;
+        root._minLevel = 0;
+        root._minParentNode = null;
         treeList[0] = [root];  // ilk elemanın  da dizi olması için
         
         this._minNodeList.splice(this._minNodeList.findIndex(v => v._id == root._id), 1); // ağaca eklediğimizi diziden çıkarıyoruz
@@ -148,7 +153,7 @@ class GraphTree {
 
         while(this._minNodeList.length>0)
         {
-            i = parentNode._level + 1;
+            i = parentNode._minLevel + 1;
             if(treeList[i] == undefined || treeList[i] == null || treeList[i].length == 0)
             {
                 treeList[i] = [];
@@ -195,12 +200,12 @@ class GraphTree {
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
                         edge._isMinChord = false;
-                        child._parentNode = parentNode;
+                        child._minParentNode = parentNode;
                         parentNode._minChildren.push(child);
-                        child._level = i;
+                        child._minLevel = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
-                        child._parentNodeEdge = edge;
+                        child._minParentNodeEdge = edge;
                         child._degree--;
                         treeList[i].push(child);
                         tempQuee.push(child);
@@ -237,6 +242,10 @@ class GraphTree {
                 });
     
                 parentNode = this.GetMinDegreeNodeFromTemp(tempQuee);
+                if(parentNode == undefined || parentNode == null)
+                {
+                    console.log("tt");
+                }
             }
             
         }
@@ -283,11 +292,11 @@ class GraphTree {
             {
                 result = element;
                 i= element._degree;
-                l= element._level;
+                l= element._maxLevel;
             }
             else if(element._degree == i)
             {
-                if(element._level < l)
+                if(element._maxLevel < l)
                 {
                     result = element;
                     i= element._degree;
@@ -302,7 +311,7 @@ class GraphTree {
         let result;
         let l=0;
 
-        let i = tempQuee.length;
+        let i = this._edgeList.length;
 
         for (let s = 0; s < i; s++) {
             const element = tempQuee[s];
@@ -310,11 +319,11 @@ class GraphTree {
             {
                 result = element;
                 i= element._degree;
-                l= element._level;
+                l= element._minLevel;
             }
             else if(element._degree == i)
             {
-                if(element._level < l)
+                if(element._minLevel < l)
                 {
                     result = element;
                     i= element._degree;
@@ -325,20 +334,131 @@ class GraphTree {
         return result;
     }
 
-    Cutter(tree, edgeList)
+    Cutter(tree, isMax)
     {
         //// tree deki yaprakları bul
         //// yaprakların tüm edgeleri kesilecek
         //// 
+        _currentNode = null;
         
-        for (let i = tree.length -1; i < tree.length; i++) {
+        for (let i = tree.length -1; i >0; i--) {
             const level = tree[i];
 
-            for (let j = 0; j < level.length; j++) {
-                const node = level[j];
-
-                
+            if(i==tree.length -1) // En alt seviyedekiler yaprak olduğu için alt düğümleri sorgulamaya gerek yok
+            {
+                level.forEach(node => {
+                    _currentNode = node;
+                    var edges = this._edgeList.filter(function (el) {
+                        var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
+                        if(row)
+                        {
+                            if(el._id == 17)
+                            {
+                                console.log("tt");
+                            }
+                            el._cutCount++;
+                        }
+                        return row;
+                    });
+                });
             }
+            else
+            {
+                level.forEach(node => {
+                    _currentNode = node;
+                    
+
+                    var edges = this._edgeList.filter(function (el) {
+                        var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
+                        return row;
+                    });
+
+                    _currentNestedList = this.GetNestedSet(tree, _currentNode, isMax);
+
+
+
+                    if(_currentNestedList != undefined && _currentNestedList != null && _currentNestedList.length > 0)
+                    {
+
+                        
+                        if(isMax)
+                        {
+                            _currentNode._maxParentNodeEdge._cutCount++;
+
+                            if(_currentNode._maxParentNodeEdge._id == 17)
+                            {
+                                console.log("tt");
+                            }
+                        }
+                        else
+                        {
+                            _currentNode._minParentNodeEdge._cutCount++;
+                            if(_currentNode._minParentNodeEdge._id == 17)
+                            {
+                                console.log("tt");
+                            }
+                        }
+
+                        for (let k = 0; k < _currentNestedList.length; k++) {
+                            const _currentNestedNode = _currentNestedList[k];
+
+                            var edgesNestedNode = this._edgeList.filter(function (el) {
+                                var row = el._node1._id == _currentNestedNode._id || el._node2._id == _currentNestedNode._id;
+
+                                if(row)
+                                {
+                                    _currentOtherNode = null;
+                                    if(el._node1._id == _currentNestedNode._id )
+                                    {
+                                        _currentOtherNode = el._node2;
+                                    }
+                                    else
+                                    {
+                                        _currentOtherNode = el._node1;
+                                    }
+
+                                    if(_currentNode._id != _currentOtherNode._id)
+                                    {
+                                        var isChord = _currentNestedList.filter(function (n) {
+                                            return n._id == _currentOtherNode._id;
+                                        });
+    
+                                        if(isChord == undefined || isChord == null || isChord.length == 0)
+                                        {
+                                            el._cutCount++;
+
+                                            if(el._id == 17)
+                                            {
+                                                console.log("tt");
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return row;
+                            });
+                            
+                        }
+                    }
+                    else   // yaprak ise
+                    {
+                        var edges = this._edgeList.filter(function (el) {
+                            var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
+                            if(row)
+                            {
+                                el._cutCount++;
+                                if(el._id == 17)
+                                {
+                                    console.log("tt");
+                                }
+                            }
+                            return row;
+                        });
+                    }
+                    
+                });
+            }
+
             
         }
 
@@ -346,21 +466,51 @@ class GraphTree {
 
 
     
-    GetNestedSet(tree, node)
+    GetNestedSet(tree, node, isMax)
     {
         let nodeList = [];
         _currentIdList = [];
 
-        node._maxChildren.forEach(element => {
-            nodeList.push(element);
-            _currentIdList.push(element._id);
-        });
+        if(node._id == 8)
+        {
+            console.log("tt");
+        }
+        var level =0;
+        
+        if(isMax)
+        {
+            node._maxChildren.forEach(element => {
+                nodeList.push(element);
+                _currentIdList.push(element._id);
+            });
+            level = node._maxLevel;
+        }
+        else
+        {
+            node._minChildren.forEach(element => {
+                nodeList.push(element);
+                _currentIdList.push(element._id);
+            });
+            
+            level = node._minLevel;
+        }
+        
 
-        for (let i = node._level+2; i < tree.length; i++) {
+        for (let i = level + 2; i < tree.length; i++) {
             const row = tree[i];
 
             var childNodes = row.filter(function (el) {
-                var node = _currentIdList.includes(el._parentNode._id);
+                let parentNode = null;
+                if(isMax)
+                {
+                    parentNode = el._maxParentNode;
+                }
+                else
+                {
+                    parentNode = el._minParentNode;
+                }
+
+                var node = _currentIdList.includes(parentNode._id);
                 if(node)
                 {
                     _currentIdList.push(el._id);
@@ -370,11 +520,6 @@ class GraphTree {
             });
         }
         return nodeList;
-
-
-        /////////
-
-
     }
     
   }
