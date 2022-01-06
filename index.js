@@ -1,5 +1,5 @@
 
-
+ window.addEventListener('DOMContentLoaded', function(){
 
 
 /////////// Create Nodes
@@ -85,6 +85,72 @@ mintree = gt.CreateMinTree();
 gt.Cutter(maxtree, true);
 gt.Cutter(mintree, false);
 
+
+var finder = new PathFinder(nList, eList);
+
+var path = finder.Find();
+
+
+
+
+///// Prapare Drawing Data 
+var nodesList = [];
+nList.forEach(element => {
+    nodesList.push({data: { id: element._label, label: element._label}});
+}); 
+
+var edgeList = [];
+
+for (let i = 1; i < maxtree.length; i++) {
+    const row = maxtree[i];
+    for (let j = 0; j < row.length; j++) {
+        const element = row[j];
+        edgeList.push({ data: { source: element._maxParentNode._label, target: element._label } });
+    }
+}
+//////////////////////////////
+
+/////Draw Max Tree
+var cy = window.cy = cytoscape({
+    container: document.getElementById('cy'),
+
+    boxSelectionEnabled: false,
+    autounselectify: true,
+
+    layout: {
+    name: 'dagre'
+    },
+
+    style: [
+    {
+        selector: 'node',
+        style: {
+        'background-color': '#11479e',
+        'color': "#ffffff"
+        }
+    },
+
+    {
+        selector: 'edge',
+        style: {
+        'width': 4,
+        'target-arrow-shape': 'triangle',
+        'line-color': '#9dbaea',
+        'target-arrow-color': '#9dbaea',
+        'curve-style': 'bezier'
+        }
+    }
+    ],
+
+    elements: {
+    nodes: nodesList,
+    edges: edgeList
+    }
+});
+
+ 
+
+  /*
 for (let i = 0; i < maxtree.length; i++)
 {
     const level = maxtree[i];
@@ -122,5 +188,5 @@ for (let i = 0; i < mintree.length; i++)
         
     }
 }
-
-
+*/
+});

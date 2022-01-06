@@ -242,10 +242,6 @@ class GraphTree {
                 });
     
                 parentNode = this.GetMinDegreeNodeFromTemp(tempQuee);
-                if(parentNode == undefined || parentNode == null)
-                {
-                    console.log("tt");
-                }
             }
             
         }
@@ -352,11 +348,11 @@ class GraphTree {
                         var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
                         if(row)
                         {
-                            if(el._id == 17)
-                            {
-                                console.log("tt");
-                            }
                             el._cutCount++;
+                            // if(el._id == 11)
+                            // {
+                            //     console.log("tt");
+                            // }
                         }
                         return row;
                     });
@@ -367,38 +363,74 @@ class GraphTree {
                 level.forEach(node => {
                     _currentNode = node;
                     
+                    // if(_currentNode._id == 9)
+                    // {
+                    //     console.log("tt");
+                    // }
 
-                    var edges = this._edgeList.filter(function (el) {
-                        var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
-                        return row;
-                    });
+                    
 
                     _currentNestedList = this.GetNestedSet(tree, _currentNode, isMax);
 
 
+                  
 
                     if(_currentNestedList != undefined && _currentNestedList != null && _currentNestedList.length > 0)
                     {
 
-                        
+                        //// Dalın parenti ile olan bağını koparmak için
                         if(isMax)
                         {
+                            // if( _currentNode._maxParentNodeEdge._id == 10)
+                            // {
+                            //     console.log("tt");
+                            // }
                             _currentNode._maxParentNodeEdge._cutCount++;
-
-                            if(_currentNode._maxParentNodeEdge._id == 17)
-                            {
-                                console.log("tt");
-                            }
                         }
                         else
                         {
+                            // if( _currentNode._minParentNodeEdge._id == 10)
+                            // {
+                            //     console.log("tt");
+                            // }
                             _currentNode._minParentNodeEdge._cutCount++;
-                            if(_currentNode._minParentNodeEdge._id == 17)
-                            {
-                                console.log("tt");
-                            }
                         }
 
+                        /// Dalın kirişlerini koparmak için
+                        var edges = this._edgeList.filter(function (el) {
+                            var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
+                            return row;
+                        });
+
+                        for (let t = 0; t < edges.length; t++) {
+                            const ed = edges[t];
+    
+                            // if(ed._id == 11)
+                            // {
+                            //     console.log("tt");
+                            // }
+
+                            
+                            if(isMax)
+                            {
+                                if(ed._isMaxChord == true)
+                                {
+                                    ed._cutCount++;
+                                }
+                            }
+                            else
+                            {
+                                if(ed._isMinChord == true)
+                                {
+                                    ed._cutCount++;
+                                }
+                            }
+                            
+                        }
+
+
+
+                        // Dalın çocuklarının kirişlerini koparmak için
                         for (let k = 0; k < _currentNestedList.length; k++) {
                             const _currentNestedNode = _currentNestedList[k];
 
@@ -426,11 +458,10 @@ class GraphTree {
                                         if(isChord == undefined || isChord == null || isChord.length == 0)
                                         {
                                             el._cutCount++;
-
-                                            if(el._id == 17)
-                                            {
-                                                console.log("tt");
-                                            }
+                                            // if(el._id == 11)
+                                            // {
+                                            //     console.log("tt");
+                                            // }
                                         }
                                     }
                                 }
@@ -447,10 +478,10 @@ class GraphTree {
                             if(row)
                             {
                                 el._cutCount++;
-                                if(el._id == 17)
-                                {
-                                    console.log("tt");
-                                }
+                                // if(el._id == 11)
+                                // {
+                                //     console.log("tt");
+                                // }
                             }
                             return row;
                         });
@@ -520,6 +551,24 @@ class GraphTree {
             });
         }
         return nodeList;
+    }
+
+    GetNodeFromTree(tree, id)
+    {
+    for (let i = 0; i < tree.length; i++) {
+        const level = tree[i];
+
+        for (let j = 0; j < level.length; j++) {
+            const node = level[j];
+
+            if(node._id == id)
+            {
+                return node;
+            }
+            
+        }
+        
+    }
     }
     
   }

@@ -1,9 +1,42 @@
 <html>
-    <script src="GraphNode.js"></script>
-    <script src="GraphEdge.js"></script>
-    <script src="GraphTree.js"></script>
-    <script src="index.js"></script>
-<body>
+    <head>
 
-</body>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+        <script src="js/cytoscape.min.js"></script>
+        <script src="js/dagre.js"></script>
+        <script src="js/cytoscape-dagre.js"></script>
+        <script src="GraphNode.js"></script>
+        <script src="GraphEdge.js"></script>
+        <script src="GraphTree.js"></script>
+        <script src="PathFinder.js"></script>
+
+        <style>
+            body {
+              font-family: helvetica;
+              font-size: 14px;
+            }
+      
+            #cy {
+              width: 500px;
+              height: 1000px;
+              position: absolute;
+              left: 0;
+              top: 0;
+              z-index: 999;
+            }
+      
+            h1 {
+              opacity: 0.5;
+              font-size: 1em;
+            }
+          </style>
+      
+            <script src="index.js"></script>
+        </head>
+    </head>
+   
+    <body>
+        <div id="cy"></div>
+    </body>
 </html>
