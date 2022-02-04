@@ -32,7 +32,7 @@ class GraphTree {
         treeList[0] = [root];  // ilk elemanın  da dizi olması için
         
         this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == root._id), 1); // ağaca eklediğimizi diziden çıkarıyoruz
-       
+        
 
         tempQuee.push(root);
         var i = 0;
