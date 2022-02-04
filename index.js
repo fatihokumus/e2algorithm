@@ -69,7 +69,8 @@ const eList = [];
 // eList.push(e15);
 
 
-const n1  = new GraphNode("n1", 1);
+
+/* const n1  = new GraphNode("n1", 1);
 const n2  = new GraphNode("n2", 2);
 const n3  = new GraphNode("n3", 3);
 const n4  = new GraphNode("n4", 4);
@@ -136,8 +137,79 @@ eList.push(e13);
 eList.push(e14);
 eList.push(e15);
 eList.push(e16);
-eList.push(e17);
+eList.push(e17); */
 
+    
+// let graphSet=[
+//     [1, 2],    
+//     [2, 3],
+//     [1, 4],
+//     [2, 5],
+//     [3, 6],
+//     [4, 5],
+//     [4, 7],
+//     [5, 6],
+//     [5, 8],
+//     [6, 9],
+//     [7, 8],
+//     [7, 10],
+//     [8, 9],
+//     [8, 11],
+//     [9, 12],
+//     [10, 11],
+//     [11, 12]
+//     ];
+    
+  let  graphSet=[
+        [1, 2],    
+        [2, 3],
+        [1, 4],
+        [2, 5],
+        [3, 5],
+        [3, 7],
+        [4, 5],
+        [5, 6],
+        [6, 7],
+        [6, 8],
+        [7, 8]
+        ];    
+    
+//Düğümleri oluştur    
+for (let i = 0; i < graphSet.length; i++) {
+     for (let j = 0; j < graphSet[i].length; j++) {
+        const nodeId = graphSet[i][j];   
+        if (!isNodeAdded(nodeId)) { 
+            const node=new GraphNode(nodeId.toString(),nodeId);       
+            nList.push(node);
+        }  
+     }
+}
+//Kenarları oluştur
+for (let i = 0; i < graphSet.length; i++) {
+    let nodeId1=graphSet[i][0]; 
+    let nodeId2=graphSet[i][1]; 
+    var n1=nList.filter(el=>{
+        return el._id==nodeId1
+    })[0];
+    var n2=nList.filter(el=>{
+        return el._id==nodeId2
+    })[0];
+    
+    const edge = new GraphEdge("e" + (i + 1), i + 1, n1, n2);
+    eList.push(edge);
+    
+}
+ 
+    
+function isNodeAdded(nodeId) {
+    let result = false;
+    for (let k = 0; k < nList.length; k++) {
+        if (nList[k]._id == nodeId) {
+            result = true;
+        }
+    }
+    return result;        
+}
 
 var gt = new GraphTree(nList, eList);
 
