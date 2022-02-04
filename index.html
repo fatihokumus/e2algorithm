@@ -17,11 +17,20 @@
               font-size: 14px;
             }
       
-            #cy {
+            #cyMax {
               width: 500px;
               height: 1000px;
               position: absolute;
               left: 0;
+              top: 0;
+              z-index: 999;
+            }
+
+            #cyMin {
+              width: 500px;
+              height: 1000px;
+              position: absolute;
+              left: 600;
               top: 0;
               z-index: 999;
             }
@@ -37,6 +46,8 @@
     </head>
    
     <body>
-        <div id="cy"></div>
+        <div id="cyMax"></div>
+
+        <div id="cyMin"></div>
     </body>
 </html>

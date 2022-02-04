@@ -47,7 +47,6 @@ class GraphNode {
             
     }
 
-
     copy()
     {
         let data = new GraphNode();

@@ -349,10 +349,6 @@ class GraphTree {
                         if(row)
                         {
                             el._cutCount++;
-                            // if(el._id == 11)
-                            // {
-                            //     console.log("tt");
-                            // }
                         }
                         return row;
                     });
@@ -363,13 +359,6 @@ class GraphTree {
                 level.forEach(node => {
                     _currentNode = node;
                     
-                    // if(_currentNode._id == 9)
-                    // {
-                    //     console.log("tt");
-                    // }
-
-                    
-
                     _currentNestedList = this.GetNestedSet(tree, _currentNode, isMax);
 
 
@@ -381,18 +370,10 @@ class GraphTree {
                         //// Dalın parenti ile olan bağını koparmak için
                         if(isMax)
                         {
-                            // if( _currentNode._maxParentNodeEdge._id == 10)
-                            // {
-                            //     console.log("tt");
-                            // }
                             _currentNode._maxParentNodeEdge._cutCount++;
                         }
                         else
                         {
-                            // if( _currentNode._minParentNodeEdge._id == 10)
-                            // {
-                            //     console.log("tt");
-                            // }
                             _currentNode._minParentNodeEdge._cutCount++;
                         }
 
@@ -405,12 +386,6 @@ class GraphTree {
                         for (let t = 0; t < edges.length; t++) {
                             const ed = edges[t];
     
-                            // if(ed._id == 11)
-                            // {
-                            //     console.log("tt");
-                            // }
-
-                            
                             if(isMax)
                             {
                                 if(ed._isMaxChord == true)
@@ -427,8 +402,6 @@ class GraphTree {
                             }
                             
                         }
-
-
 
                         // Dalın çocuklarının kirişlerini koparmak için
                         for (let k = 0; k < _currentNestedList.length; k++) {
@@ -458,10 +431,6 @@ class GraphTree {
                                         if(isChord == undefined || isChord == null || isChord.length == 0)
                                         {
                                             el._cutCount++;
-                                            // if(el._id == 11)
-                                            // {
-                                            //     console.log("tt");
-                                            // }
                                         }
                                     }
                                 }
@@ -478,10 +447,6 @@ class GraphTree {
                             if(row)
                             {
                                 el._cutCount++;
-                                // if(el._id == 11)
-                                // {
-                                //     console.log("tt");
-                                // }
                             }
                             return row;
                         });
@@ -502,10 +467,6 @@ class GraphTree {
         let nodeList = [];
         _currentIdList = [];
 
-        if(node._id == 8)
-        {
-            console.log("tt");
-        }
         var level =0;
         
         if(isMax)
