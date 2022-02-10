@@ -3,36 +3,35 @@
 
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
-        <script src="js/cytoscape.min.js"></script>
+      
+        <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+        <script src="https://unpkg.com/weaverjs@1.2.0/dist/weaver.min.js"></script>
         <script src="js/dagre.js"></script>
         <script src="js/cytoscape-dagre.js"></script>
+        <script src="js/cytoscape-spread.js"></script>
         <script src="GraphNode.js"></script>
         <script src="GraphEdge.js"></script>
         <script src="GraphTree.js"></script>
         <script src="PathFinder.js"></script>
-
         <style>
             body {
               font-family: helvetica;
               font-size: 14px;
             }
       
-            #cyMax {
-              width: 500px;
-              height: 1000px;
-              position: absolute;
+            .cy {
+              width: 450px;
+              height: 600px;
               left: 0;
               top: 0;
               z-index: 999;
             }
 
-            #cyMin {
-              width: 500px;
-              height: 1000px;
-              position: absolute;
-              left: 600;
-              top: 0;
-              z-index: 999;
+            .divTree{
+              width: 450px;
+              height: 600px; float: left; 
+              border: solid 1px;    border-radius: 4px;
+              margin-left: 5px;
             }
       
             h1 {
@@ -45,9 +44,63 @@
         </head>
     </head>
    
-    <body>
-        <div id="cyMax"></div>
+    <body onload="checkFileAPI();">
+      <div style="width: 100%;height: 250px;">
+        <div style="border: solid 1px; border-radius: 4px; margin-left: 5px; padding: 5px; width: 400px; float: left;">
+          <h3>Upload graph file</h3>
+          <form enctype = "multipart/form-data" onsubmit="return false;" >
+            <input id="file" type="file" name="static_file" />
+            <button id="upload-button" onclick="readTextFile(this.form)"> Run </button>
+         </form>
+        </div>
+        <div style="margin-left: 5px; padding: 5px; width: 15px;float: left;">
+          or
+        </div>
+        <div style="border: solid 1px; border-radius: 4px; margin-left: 5px; padding: 5px; width: 400px; float: left;">
+          <h3>Paste graph text</h3>
+          <textarea id="textGraph" style="height: 150px;">1, 2
+2, 3
+1, 4
+2, 5
+3, 5
+3, 7
+4, 5
+5, 6
+6, 7
+6, 8
+7, 8</textarea> 
+          <button id="run" onclick="RunText()"> Run </button>
+        </div>
+      </div>
+      <div class="divTree" >
+        <div style="width: 100%; text-align: center;">
+          GRAPH
 
-        <div id="cyMin"></div>
+        </div>
+        <div id="cyOrg" class="cy"></div>
+      </div>
+
+      <div class="divTree">
+        <div style="width: 100%; text-align: center;">
+          K-MAX TREE
+        </div>
+        <div id="cyMax" class="cy"></div>
+
+      </div>
+        
+      <div class="divTree">
+        <div style="width: 100%; text-align: center;">
+          K-MIN TREE
+        </div>
+        <div id="cyMin" class="cy"></div>
+
+      </div>
+      <div class="divTree">
+        <div style="width: 100%; text-align: center;">
+          PATH
+        </div>
+        <div id="cyPath" class="cy"></div>
+
+      </div>
     </body>
 </html>
