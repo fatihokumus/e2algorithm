@@ -15,6 +15,7 @@ class GraphNode {
     _maxParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
     _minParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
     _isInTree; // ağaca girmişse tekrar bakmamak için
+    _neighbours;
 
     constructor(label, id) {
         this._label = label;
@@ -25,6 +26,7 @@ class GraphNode {
         this._minLevel =0;
         this._maxChildren =[];
         this._minChildren =[];
+        this._neighbours =[];
     }
     
     increaseDegree() {

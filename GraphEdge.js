@@ -15,6 +15,8 @@ class GraphEdge {
         this._cutCount =0;
         node1.increaseDegree();
         node2.increaseDegree();
+        node1._neighbours.push(node2);
+        node2._neighbours.push(node1);
         this._node1 = node1;
         this._node2 = node2;
     }

@@ -297,6 +297,9 @@ function KarciDSet(graphSet)
         autounselectify: true,
 
         
+        layout: {
+            name: 'avsdf'
+            },
 
         style: [
         {
@@ -304,9 +307,12 @@ function KarciDSet(graphSet)
             
             style: {
             'background-color': '#3a7ecf',
-            'color': "#000000",
+            'color': "#FFFFFF",
             'label': 'data(id)',
-            }
+            'text-halign': 'center',
+            'text-valign': 'center'
+            },
+            classes: 'center-center'
         },
 
         {
@@ -314,7 +320,8 @@ function KarciDSet(graphSet)
             style: {
             'width': 4,
             'line-color': '#3a7ecf',
-            'label': 'data(id)'
+            'label': 'data(id)',
+            'color': '#cd9d32'
             }
         }
         ],
@@ -342,9 +349,12 @@ function KarciDSet(graphSet)
             
             style: {
             'background-color': '#11479e',
-            'color': "#000000",
-            'label': 'data(id)'
-            }
+            'color': "#FFFFFF",
+            'label': 'data(id)',
+            'text-halign': 'center',
+            'text-valign': 'center'
+            },
+            classes: 'center-center'
         },
 
         {
@@ -355,7 +365,8 @@ function KarciDSet(graphSet)
             'line-color': '#9dbaea',
             'target-arrow-color': '#9dbaea',
             'curve-style': 'bezier',
-            'label': 'data(id)'
+            'label': 'data(id)',
+            'color': '#cd9d32'
             }
         }
         ],
@@ -382,9 +393,12 @@ function KarciDSet(graphSet)
             selector: 'node',
             style: {
             'background-color': '#11479e',
-            'color': "#000000",
-            'label': 'data(id)'
-            }
+            'color': "#FFFFFF",
+            'label': 'data(id)',
+            'text-halign': 'center',
+            'text-valign': 'center'
+            },
+            classes: 'center-center'
         },
 
         {
@@ -395,7 +409,8 @@ function KarciDSet(graphSet)
             'line-color': '#9dbaea',
             'target-arrow-color': '#9dbaea',
             'curve-style': 'bezier',
-            'label': 'data(id)'
+            'label': 'data(id)',
+            'color': '#cd9d32'
             }
         }
         ],
@@ -421,9 +436,12 @@ function KarciDSet(graphSet)
             selector: 'node',
             style: {
             'background-color': '#11479e',
-            'color': "#000000",
-            'label': 'data(id)'
-            }
+            'color': "#FFFFFF",
+            'label': 'data(id)',
+            'text-halign': 'center',
+            'text-valign': 'center'
+            },
+            classes: 'center-center'
         },
 
         {

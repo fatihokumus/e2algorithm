@@ -1,6 +1,7 @@
 
 var _currentObject;
 var _currentIdList = [];
+var _currentChildren = [];
 var _currentNode = [];
 var _currentOtherNode;
 var _currentNestedNode;
@@ -22,19 +23,78 @@ class GraphTree {
         });
     }
 
+    DecreaseNeighboursDegreeForKMax(node, treeList)
+    {
+        node._neighbours.forEach(neighbour => {
+            var objId = neighbour._id;
+            var isNodeFounded = false;
+            var child = this._maxNodeList.filter(function (el) {
+                if(el._id == objId)  
+                {
+                    el._degree--;
+                    isNodeFounded = true;
+                }
+            })[0];
+
+            if(isNodeFounded == false)
+            {
+                treeList.forEach(element => {
+                    var filteredTreeObject = element.filter(function (el) {
+                        return el._id == objId;
+                    });
+                    if(filteredTreeObject!= undefined && filteredTreeObject != null && filteredTreeObject.length>0)
+                    {
+                        filteredTreeObject[0]._degree--;
+                    }
+                });
+            }
+        });
+    }
+
+    DecreaseNeighboursDegreeForKMin(node, treeList)
+    {
+        node._neighbours.forEach(neighbour => {
+            var objId = neighbour._id;
+            var isNodeFounded = false;
+            var child = this._minNodeList.filter(function (el) {
+                if(el._id == objId)  
+                {
+                    el._degree--;
+                }
+            })[0];
+
+            if(isNodeFounded == false)
+            {
+                treeList.forEach(element => {
+                    var filteredTreeObject = element.filter(function (el) {
+                        return el._id == objId;
+                    });
+                    if(filteredTreeObject!= undefined && filteredTreeObject != null && filteredTreeObject.length>0)
+                    {
+                        filteredTreeObject[0]._degree--;
+                    }
+                });
+            }
+        });
+    }
+
     CreateMaxTree()
     {
         var treeList = [];
         var tempQuee = [];
+        var tempQuee2 = [];
         var root = this.GetMaxDegreeNode();
         root._maxLevel = 0;
         root._maxParentNode = null;
         treeList[0] = [root];  // ilk elemanın  da dizi olması için
+        this.DecreaseNeighboursDegreeForKMax(root, treeList);
+
         
         this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == root._id), 1); // ağaca eklediğimizi diziden çıkarıyoruz
         
 
         tempQuee.push(root);
+        tempQuee2.push(root);
         var i = 0;
         var parentNode = root;
 
@@ -58,26 +118,21 @@ class GraphTree {
 
             if(_currentObject != null)
             {
-                var childEdges = this._edgeList.filter(function (el) {
-                    var row = el._node1._id == _currentObject._id || el._node2._id == _currentObject._id;
-                    return row;
-                });
+                // var childEdges = this._edgeList.filter(function (el) {
+                //     var row = el._node1._id == _currentObject._id || el._node2._id == _currentObject._id;
+                //     return row;
+                // });
                 
     
                 tempQuee.splice(tempQuee.findIndex(v => v._id == parentNode._id), 1); // temp listeden açacağımız dalı çıkarıyoruz
     
                 var qi = 0;
-                childEdges.forEach(edge => {
+
+                _currentChildren = [];
+                _currentObject._neighbours.forEach(neighbour => {
                     var child;
-                    var objId;
-                    if(edge._node1._id== _currentObject._id)
-                    {
-                        objId = edge._node2._id;
-                    }
-                    else
-                    {
-                        objId = edge._node1._id;
-                    }
+                    var objId = neighbour._id;
+                    
 
                     child = this._maxNodeList.filter(function (el) {
                         return el._id == objId ;
@@ -86,47 +141,44 @@ class GraphTree {
 
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
-                        edge._isMaxChord = false;
+                        if(child._id == 37)
+                        {
+                            console.log("debe");
+                        }
                         child._maxParentNode = parentNode;
                         parentNode._maxChildren.push(child);
                         child._maxLevel = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
-                        child._maxParentNodeEdge = edge;
-                        child._degree--;
+
+                        var edge = this._edgeList.filter(function (el) {
+                            var row = (el._node1._id == _currentObject._id && el._node2._id == child._id) || (el._node1._id == child._id && el._node2._id == _currentObject._id);
+                            return row;
+                        });
+
+                        child._maxParentNodeEdge = edge[0];
+                        edge._isMaxChord = false;
+
+                        this.DecreaseNeighboursDegreeForKMax(child, treeList);
                         treeList[i].push(child);
                         tempQuee.push(child);
+                        tempQuee2.push(child);
                         this._maxNodeList.splice(this._maxNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
                         qi++;
                     }
-                    else 
-                    {
-                        // eğer komşu daha önce ağaca eklendiyse derecesini azaltalım
-                        treeList.forEach(element => {
-                            var filteredTreeObject = element.filter(function (el) {
-                                return el._id == objId;
-                            });
-                            if(filteredTreeObject!= undefined && filteredTreeObject != null && filteredTreeObject.length>0)
-                            {
-                                filteredTreeObject[0]._degree--;
-                            }
-                        });
-                        
-
-                        // eğer komşu daha önce temp liste eklendiyse derecesini azaltalım
-                        var filteredTempObject = tempQuee.filter(function (el) {
-                            return el._id == objId;
-                        });
-                        if(filteredTempObject!= undefined && filteredTempObject != null && filteredTempObject.length>0)
-                        {
-                            filteredTempObject[0]._degree--;
-                        }
-                        
-                    }
-                    
                 });
+
+               
     
+                if(_currentObject._label == '70')
+                {
+                    console.log("test");
+                }
                 parentNode = this.GetMaxDegreeNodeFromTemp(tempQuee);
+                if(parentNode == undefined || parentNode == null)
+                {
+                    console.log("test");
+                }
             }
             
         }
@@ -143,7 +195,8 @@ class GraphTree {
         root._minLevel = 0;
         root._minParentNode = null;
         treeList[0] = [root];  // ilk elemanın  da dizi olması için
-        
+        this.DecreaseNeighboursDegreeForKMin(root, treeList);
+
         this._minNodeList.splice(this._minNodeList.findIndex(v => v._id == root._id), 1); // ağaca eklediğimizi diziden çıkarıyoruz
        
 
@@ -171,26 +224,13 @@ class GraphTree {
 
             if(_currentObject != null)
             {
-                var childEdges = this._edgeList.filter(function (el) {
-                    var row = el._node1._id == _currentObject._id || el._node2._id == _currentObject._id;
-                    return row;
-                });
-                
-    
                 tempQuee.splice(tempQuee.findIndex(v => v._id == parentNode._id), 1); // temp listeden açacağımız dalı çıkarıyoruz
     
                 var qi = 0;
-                childEdges.forEach(edge => {
+
+                _currentObject._neighbours.forEach(neighbour => {
                     var child;
-                    var objId;
-                    if(edge._node1._id== _currentObject._id)
-                    {
-                        objId = edge._node2._id;
-                    }
-                    else
-                    {
-                        objId = edge._node1._id;
-                    }
+                    var objId = neighbour._id;
 
                     child = this._minNodeList.filter(function (el) {
                         return el._id == objId ;
@@ -199,46 +239,27 @@ class GraphTree {
 
                     if(child != undefined || child != null) // eğer bulunamadıysa ağaçta değildir o zaman ekleyebiliriz
                     {
-                        edge._isMinChord = false;
                         child._minParentNode = parentNode;
                         parentNode._minChildren.push(child);
                         child._minLevel = i;
                         child._queeIndex = qi;
                         child._isInTree = true;
-                        child._minParentNodeEdge = edge;
-                        child._degree--;
+
+                        var edge = this._edgeList.filter(function (el) {
+                            var row = (el._node1._id == _currentObject._id && el._node2._id == child._id) || (el._node1._id == child._id && el._node2._id == _currentObject._id);
+                            return row;
+                        });
+
+                        child._minParentNodeEdge = edge[0];
+                        edge._isMinChord = false;
+                        
+                        this.DecreaseNeighboursDegreeForKMin(child, treeList);
                         treeList[i].push(child);
                         tempQuee.push(child);
                         
                         this._minNodeList.splice(this._minNodeList.findIndex(v => v._id == objId), 1); // ağaca eklediğimizi diziden çıkarıyoruz
                         qi++;
                     }
-                    else 
-                    {
-                        // eğer komşu daha önce ağaca eklendiyse derecesini azaltalım
-                        treeList.forEach(element => {
-                            var filteredTreeObject = element.filter(function (el) {
-                                return el._id == objId;
-                            });
-                            if(filteredTreeObject!= undefined && filteredTreeObject != null && filteredTreeObject.length>0)
-                            {
-                                filteredTreeObject[0]._degree--;
-                            }
-                        });
-                        
-
-                        // eğer komşu daha önce tenp liste eklendiyse derecesini azaltalım
-                        var filteredTempObject = tempQuee.filter(function (el) {
-                            return el._id == objId;
-                        });
-                        if(filteredTempObject!= undefined && filteredTempObject != null && filteredTempObject.length>0)
-                        {
-                            filteredTempObject[0]._degree--;
-                        }
-                        
-                    }
-                    
-                    
                 });
     
                 parentNode = this.GetMinDegreeNodeFromTemp(tempQuee);
@@ -281,14 +302,16 @@ class GraphTree {
     GetMaxDegreeNodeFromTemp(tempQuee)
     {
         let result;
-        let i=0;
+        let i=-100;
         let l=0;
+        let id=0;
         tempQuee.forEach(element => {
             if(element._degree > i)
             {
                 result = element;
                 i= element._degree;
                 l= element._maxLevel;
+                id = element._id;
             }
             else if(element._degree == i)
             {
@@ -296,6 +319,18 @@ class GraphTree {
                 {
                     result = element;
                     i= element._degree;
+                    l= element._maxLevel;
+                    id = element._id;
+                }
+                else if(element._maxLevel == l)
+                {
+                    if(element._id < id)
+                    {
+                        result = element;
+                        i= element._degree;
+                        l= element._maxLevel;
+                        id = element._id;
+                    }
                 }
             }
         });
@@ -306,8 +341,8 @@ class GraphTree {
     {
         let result;
         let l=0;
-
         let i = this._edgeList.length;
+        let id=0;
 
         for (let s = 0; s < i; s++) {
             const element = tempQuee[s];
@@ -316,6 +351,7 @@ class GraphTree {
                 result = element;
                 i= element._degree;
                 l= element._minLevel;
+                id = element._id;
             }
             else if(element._degree == i)
             {
@@ -323,8 +359,21 @@ class GraphTree {
                 {
                     result = element;
                     i= element._degree;
+                    l= element._maxLevel;
+                    id = element._id;
+                }
+                else if(element._maxLevel == l)
+                {
+                    if(element._id < id)
+                    {
+                        result = element;
+                        i= element._degree;
+                        l= element._maxLevel;
+                        id = element._id;
+                    }
                 }
             }
+            
         }
 
         return result;
@@ -332,9 +381,6 @@ class GraphTree {
 
     Cutter(tree, isMax)
     {
-        //// tree deki yaprakları bul
-        //// yaprakların tüm edgeleri kesilecek
-        //// 
         _currentNode = null;
         
         for (let i = tree.length -1; i >0; i--) {
@@ -361,13 +407,9 @@ class GraphTree {
                     
                     _currentNestedList = this.GetNestedSet(tree, _currentNode, isMax);
 
-
-                  
-
                     if(_currentNestedList != undefined && _currentNestedList != null && _currentNestedList.length > 0)
                     {
 
-                        //// Dalın parenti ile olan bağını koparmak için
                         if(isMax)
                         {
                             _currentNode._maxParentNodeEdge._cutCount++;

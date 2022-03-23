@@ -9,6 +9,9 @@
         <script src="js/dagre.js"></script>
         <script src="js/cytoscape-dagre.js"></script>
         <script src="js/cytoscape-spread.js"></script>
+        <script src="js/layout-base.js"></script>
+        <script src="js/avsdf-base.js"></script>
+        <script src="js/cytoscape-avsdf.js"></script>
         <script src="GraphNode.js"></script>
         <script src="GraphEdge.js"></script>
         <script src="GraphTree.js"></script>
@@ -27,9 +30,24 @@
               z-index: 999;
             }
 
+            .cy2 {
+              width: 1450px;
+              height: 2600px;
+              left: 0;
+              top: 0;
+              z-index: 999;
+            }
+
             .divTree{
               width: 450px;
               height: 600px; float: left; 
+              border: solid 1px;    border-radius: 4px;
+              margin-left: 5px;
+            }
+
+            .divTree2{
+              width: 1450px;
+              height: 2600px; float: left; 
               border: solid 1px;    border-radius: 4px;
               margin-left: 5px;
             }
@@ -72,34 +90,34 @@
           <button id="run" onclick="RunText()"> Run </button>
         </div>
       </div>
-      <div class="divTree" >
+      <div class="divTree2" >
         <div style="width: 100%; text-align: center;">
           GRAPH
 
         </div>
-        <div id="cyOrg" class="cy"></div>
+        <div id="cyOrg" class="cy2"></div>
       </div>
 
-      <div class="divTree">
+      <div class="divTree2">
         <div style="width: 100%; text-align: center;">
           K-MAX TREE
         </div>
-        <div id="cyMax" class="cy"></div>
+        <div id="cyMax" class="cy2"></div>
 
       </div>
         
-      <div class="divTree">
+      <div class="divTree2">
         <div style="width: 100%; text-align: center;">
           K-MIN TREE
         </div>
-        <div id="cyMin" class="cy"></div>
+        <div id="cyMin" class="cy2"></div>
 
       </div>
-      <div class="divTree">
+      <div class="divTree2">
         <div style="width: 100%; text-align: center;">
           PATH
         </div>
-        <div id="cyPath" class="cy"></div>
+        <div id="cyPath" class="cy2"></div>
 
       </div>
     </body>
