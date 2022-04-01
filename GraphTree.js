@@ -384,11 +384,11 @@ class GraphTree {
         _currentNode = null;
         
         for (let i = tree.length -1; i >0; i--) {
-            const level = tree[i];
+            const row = tree[i];
 
             if(i==tree.length -1) // En alt seviyedekiler yaprak olduğu için alt düğümleri sorgulamaya gerek yok
             {
-                level.forEach(node => {
+                row.forEach(node => {
                     _currentNode = node;
                     var edges = this._edgeList.filter(function (el) {
                         var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
@@ -402,7 +402,7 @@ class GraphTree {
             }
             else
             {
-                level.forEach(node => {
+                row.forEach(node => {
                     _currentNode = node;
                     
                     _currentNestedList = this.GetNestedSet(tree, _currentNode, isMax);
@@ -550,7 +550,6 @@ class GraphTree {
                     _currentIdList.push(el._id);
                     nodeList.push(el);
                 }
-                return node;
             });
         }
         return nodeList;
@@ -558,20 +557,20 @@ class GraphTree {
 
     GetNodeFromTree(tree, id)
     {
-    for (let i = 0; i < tree.length; i++) {
-        const level = tree[i];
+        for (let i = 0; i < tree.length; i++) {
+            const level = tree[i];
 
-        for (let j = 0; j < level.length; j++) {
-            const node = level[j];
+            for (let j = 0; j < level.length; j++) {
+                const node = level[j];
 
-            if(node._id == id)
-            {
-                return node;
+                if(node._id == id)
+                {
+                    return node;
+                }
+                
             }
             
         }
-        
-    }
     }
     
   }
