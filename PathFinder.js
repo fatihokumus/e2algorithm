@@ -116,20 +116,15 @@ class PathFinder {
 
             if(isIncludePath == false)
             {
-                this._nodeList.filter(function(el){
+                var decrease = this._nodeList.filter(function(el){
                     if(el._id == _currentOtherNode._id)
                     {
                         el._degree--;
                     }
                     return 0;
-                })[0];
+                });
             }
-            
-            
         }
-
-
-
     }
 
     GetMinDegreeNeighbour()
@@ -140,6 +135,7 @@ class PathFinder {
         });
 
         var minDegree = this._orgNodeList.length;
+        var maxCuts = this._orgNodeList.length;
         var isNodeExist = false;
         for (let i = 0; i < edgeList.length; i++) {
             const element = edgeList[i];
@@ -165,7 +161,17 @@ class PathFinder {
                 {
                     minDegree = _currentOtherNode._degree;
                     _currentNode = _currentOtherNode;
+                    maxCuts = element._cutCount;
                     isNodeExist = true;
+                }
+                else if(_currentOtherNode._degree == minDegree)
+                {
+                    if(element._cutCount < maxCuts)
+                    {
+                        _currentNode = _currentOtherNode;
+                        maxCuts = element._cutCount;
+                        isNodeExist = true;
+                    }
                 }
                 
             }

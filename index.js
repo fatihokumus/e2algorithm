@@ -179,13 +179,13 @@ function KarciDSet(graphSet)
 {
     
 
-    /////////// Create Nodes
+    
     const nList = [];
     const eList = [];
 
 
         
-    //Düğümleri oluştur    
+    /////////// Create Nodes  
     for (let i = 0; i < graphSet.length; i++) {
         for (let j = 0; j < graphSet[i].length; j++) {
             const nodeId = graphSet[i][j];   
@@ -195,7 +195,7 @@ function KarciDSet(graphSet)
             }  
         }
     }
-    //Kenarları oluştur
+    /////////// Create Edges
     for (let i = 0; i < graphSet.length; i++) {
         let nodeId1=graphSet[i][0]; 
         let nodeId2=graphSet[i][1]; 
