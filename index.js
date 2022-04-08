@@ -230,8 +230,20 @@ function KarciDSet(graphSet)
     gt.Cutter(maxtree, true);
     gt.Cutter(mintree, false);
 
+    eList.sort((a, b) => (a._cutCount > b._cutCount) ? 1 : -1)
+
+    document.getElementById("EtkinDugumler").innerHTML = "";
+    var html = "";
+    for (let k = (eList.length -1); k >= 0; k--) {
+        const element = eList[k];
+        html += "Kenar: " + element._label + " --- node1: " + element._node1._label + " --- node2: " + element._node2._label + "&#13;&#10;";
+    }
+    document.getElementById("EtkinDugumler").innerHTML = html;
+    
 
     var finder = new PathFinder(nList, eList);
+
+
 
     var path = finder.Find();
 
