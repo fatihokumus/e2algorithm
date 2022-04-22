@@ -228,18 +228,21 @@ function KarciDSet(graphSet)
     mintree = gt.CreateMinTree();
 
     gt.Cutter(maxtree, true);
-    gt.Cutter(mintree, false);
 
-    eList.sort((a, b) => (a._cutCount > b._cutCount) ? 1 : -1)
-
-    document.getElementById("EtkinDugumler").innerHTML = "";
+    /////Print most efficient edges
+    //eList.sort((a, b) => (a._cutCount > b._cutCount) ? 1 : -1)
     var html = "";
+
+    document.getElementById("EtkinDugumlerKMax").innerHTML = html;
     for (let k = (eList.length -1); k >= 0; k--) {
         const element = eList[k];
-        html += "Kenar: " + element._label + " --- node1: " + element._node1._label + " --- node2: " + element._node2._label + "&#13;&#10;";
+        html += "Edge: " + element._label + " -- Cut Count: " + element._cutCount + " -- node1: " + element._node1._label + " -- node2: " + element._node2._label + "&#13;&#10;";
     }
-    document.getElementById("EtkinDugumler").innerHTML = html;
-    
+    document.getElementById("EtkinDugumlerKMax").innerHTML = html;
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    gt.Cutter(mintree, false);
 
     var finder = new PathFinder(nList, eList);
 
