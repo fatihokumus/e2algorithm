@@ -6,6 +6,7 @@ class GraphEdge {
     _isMaxChord; // kiriş mi
     _isMinChord; // kiriş mi
     _cutCount; // kesme sayısı
+    _isInPath; // kiriş mi
 
     constructor(label, id, node1, node2) {
         this._label = label;
@@ -19,5 +20,6 @@ class GraphEdge {
         node2._neighbours.push(node1);
         this._node1 = node1;
         this._node2 = node2;
+        this._isInPath = false;
     }
   }

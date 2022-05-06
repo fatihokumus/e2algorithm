@@ -1,7 +1,7 @@
 
 var _maxCount;
-var _currentNode;
-var _currentOtherNode;
+var _currentNode; // seçilen düğüm
+var _cNode; // Seçilen düğüme komşu düğüm
 class PathFinder {
     _orgNodeList;
     _nodeList;
@@ -41,27 +41,54 @@ class PathFinder {
 
         var maxDegree = 0;
         var maxDegreeNode;
-        var maxDegreeEdge;
+        var maxDegreeEdge = 0;
         var maxDegreeOtherNode;
 
         for (let i = 0; i < maxEdges.length; i++) {
-            const element = maxEdges[i];
+            const edge = maxEdges[i];
 
-            if(element._node1._degree > maxDegree)
+            // Eğer en önemli kenarın iki ucundaki düğüm de aynı dereceye sahipse komşuları ile yaptığı kenarlardaki toplam ağırlığı yüksek olan seçilir.
+            if((edge._node1._degree == edge._node2._degree) && (edge._node1._degree > maxDegree || edge._node2._degree > maxDegree))
             {
-                maxDegree = element._node1._degree;
-                maxDegreeNode = element._node1;
-                maxDegreeEdge = element;
-                maxDegreeOtherNode = element._node2;
-            }
-            if(element._node2._degree > maxDegree)
-            {
-                maxDegree = element._node2._degree;
-                maxDegreeNode = element._node2;
-                maxDegreeEdge = element;
-                maxDegreeOtherNode = element._node1;
+                var node1Weight = this.GetNodeImportantce(edge._node1);
                 
+                var node2Weight = this.GetNodeImportantce(edge._node2);
+               
+                if(node1Weight >= node2Weight)
+                {
+                    maxDegree = edge._node1._degree;
+                    maxDegreeNode = edge._node1;
+                    maxDegreeEdge = edge;
+                    maxDegreeOtherNode = edge._node2;
+                }
+                else
+                {
+                    maxDegree = edge._node2._degree;
+                    maxDegreeNode = edge._node2;
+                    maxDegreeEdge = edge;
+                    maxDegreeOtherNode = edge._node1;
+                    
+                }
             }
+            else
+            {
+                if(edge._node1._degree > maxDegree)
+                {
+                    maxDegree = edge._node1._degree;
+                    maxDegreeNode = edge._node1;
+                    maxDegreeEdge = edge;
+                    maxDegreeOtherNode = edge._node2;
+                }
+                if(edge._node2._degree > maxDegree)
+                {
+                    maxDegree = edge._node2._degree;
+                    maxDegreeNode = edge._node2;
+                    maxDegreeEdge = edge;
+                    maxDegreeOtherNode = edge._node1;
+                    
+                }
+            }
+            
         }
 
 
@@ -91,40 +118,42 @@ class PathFinder {
 
         this._path.push(node);
 
-        var edgeList = this._edgeList.filter(function (el) {
-            var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
-            return row;
-        });
+        this.DecreaseNeighboursDegree(node);
 
-        for (let i = 0; i < edgeList.length; i++) {
-            const element = edgeList[i];
+        // var edgeList = this._edgeList.filter(function (el) {
+        //     var row = el._node1._id == _currentNode._id || el._node2._id == _currentNode._id;
+        //     return row;
+        // });
 
-            _currentOtherNode = null;
-            if(element._node1.id == node._id)
-            {
-                _currentOtherNode = element._node2;
-            }
-            else
-            {
-                _currentOtherNode = element._node1;
-            }
+        // for (let i = 0; i < edgeList.length; i++) {
+        //     const element = edgeList[i];
 
-            var isIncludePath = this._path.filter(function(el)
-            {
-                return el._id == _currentOtherNode._id;
-            }).length > 0;
+        //     _cNode = null;
+        //     if(element._node1.id == node._id)
+        //     {
+        //         _cNode = element._node2;
+        //     }
+        //     else
+        //     {
+        //         _cNode = element._node1;
+        //     }
 
-            if(isIncludePath == false)
-            {
-                var decrease = this._nodeList.filter(function(el){
-                    if(el._id == _currentOtherNode._id)
-                    {
-                        el._degree--;
-                    }
-                    return 0;
-                });
-            }
-        }
+        //     var isIncludePath = this._path.filter(function(el)
+        //     {
+        //         return el._id == _cNode._id;
+        //     }).length > 0;
+
+        //     if(isIncludePath == false)
+        //     {
+        //         var decrease = this._nodeList.filter(function(el){
+        //             if(el._id == _cNode._id)
+        //             {
+        //                 el._degree--;
+        //             }
+        //             return 0;
+        //         });
+        //     }
+        // }
     }
 
     GetMinDegreeNeighbour()
@@ -134,53 +163,150 @@ class PathFinder {
             return row;
         });
 
-        var minDegree = this._orgNodeList.length;
-        var maxCuts = this._orgNodeList.length;
+        var minDegree = this._orgNodeList.length; // Başlangıç değeri olabilecek en yüksek sayı
+        var maxImportance = minDegree * minDegree; // Başlangıç değeri olabilecek en yüksek sayı
+        var maxCount = 0;
         var isNodeExist = false;
+        var findedNode;
+        var findedEdge;
         for (let i = 0; i < edgeList.length; i++) {
             const element = edgeList[i];
 
-            _currentOtherNode = null;
+            _cNode = null;
             if(element._node1._id == _currentNode._id)
             {
-                _currentOtherNode = element._node2;
+                _cNode = element._node2;
             }
             else
             {
-                _currentOtherNode = element._node1;
+                _cNode = element._node1;
             }
 
             var isIncludePath = this._path.filter(function(el)
             {
-                return el._id == _currentOtherNode._id;
+                return el._id == _cNode._id;
             }).length > 0;
 
             if(isIncludePath == false)
             {
-                if(_currentOtherNode._degree < minDegree)
+                var fNode = this._nodeList.filter(function(el){
+                    return el._id == _cNode._id;
+                })[0];
+                 var nodeImportance =   this.GetNodeImportantce(_cNode);
+                // if(nodeImportance > maxImportance)
+                // {
+                //     minDegree = _cNode._degree;
+                //     findedNode = _cNode;
+                //     maxImportance = nodeImportance;
+                //     isNodeExist = true;
+                // }
+                // else if(nodeImportance == maxImportance)
+                // {
+                //     if(_cNode._degree < minDegree)
+                //     {
+                //         minDegree = _cNode._degree;
+                //         findedNode = _cNode;
+                //         maxImportance = nodeImportance;
+                //         isNodeExist = true;
+                //     }
+                // }
+
+                
+                // if(element._cutCount > maxCount)
+                // {
+                //     minDegree = _cNode._degree;
+                //     findedNode = _cNode;
+                //     maxCount = element._cutCount;
+                //     isNodeExist = true;
+                // }
+                // else if(element._cutCount == maxCount)
+                // {
+                //     if(_cNode._degree < minDegree)
+                //     {
+                //         minDegree = _cNode._degree;
+                //         findedNode = _cNode;
+                //         maxCount = element._cutCount;
+                //         isNodeExist = true;
+                //     }
+                // }
+
+                if(fNode._degree < minDegree)
                 {
-                    minDegree = _currentOtherNode._degree;
-                    _currentNode = _currentOtherNode;
-                    maxCuts = element._cutCount;
+                    minDegree = fNode._degree;
+                    findedNode = fNode;
+                    findedEdge = element;
+                    maxImportance = nodeImportance;
                     isNodeExist = true;
                 }
-                else if(_currentOtherNode._degree == minDegree)
+                else if(fNode._degree == minDegree)
                 {
-                    if(element._cutCount < maxCuts)
+                    if(nodeImportance < maxImportance)
                     {
-                        _currentNode = _currentOtherNode;
-                        maxCuts = element._cutCount;
+                        findedNode = fNode;
+                        findedEdge = element;
+                        maxImportance = nodeImportance;
                         isNodeExist = true;
                     }
                 }
+
+                // if(_cNode._degree < minDegree)
+                // {
+                //     minDegree = _cNode._degree;
+                //     findedNode = _cNode;
+                //     maxImportance = nodeImportance;
+                //     isNodeExist = true;
+                // }
+                // else if(_cNode._degree == minDegree)
+                // {
+                //     if(nodeImportance < maxImportance)
+                //     {
+                //         findedNode = _cNode;
+                //         maxImportance = nodeImportance;
+                //         isNodeExist = true;
+                //     }
+                // }
                 
             }
+           
             
             
         }
 
+        _currentNode = findedNode;
+        if(findedEdge != undefined && findedEdge!= null)
+            findedEdge._isInPath = true;
+
         return isNodeExist;
 
+    }
+
+    GetNodeImportantce(node)
+    {
+        var importance = 0;
+        for (let j = 0; j < node._neighbours.length; j++) {
+            const neighbour = node._neighbours[j];
+            var findedge = this._edgeList.filter(function (nl) {
+                return ((nl._node1._id == node._id && nl._node2._id == neighbour._id) || (nl._node2._id == node._id && nl._node1._id == neighbour._id));
+            });
+
+            if(findedge._isInPath == false)
+                importance += findedge[0]._cutCount;
+        }
+        return importance;
+    }
+
+    DecreaseNeighboursDegree(node)
+    {
+        for (let j = 0; j < node._neighbours.length; j++) {
+            const element = node._neighbours[j];
+           
+
+            var nodeFinded = this._nodeList.filter(function(el){
+                return el._id == element._id;
+            })[0];
+
+            nodeFinded._degree--;
+        }
     }
     
   }
