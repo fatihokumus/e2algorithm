@@ -27,7 +27,7 @@
     padding: 5px; 
     width: 300px; 
     float: left; 
-    height: 210px;
+    height: 222px;
     background-color: aliceblue;
   }
   .texta{
@@ -116,7 +116,7 @@
     }
 
     .divTree2{
-      width: 375px;
+      width: 370px;
       height: 525px;
       float: left;
       border: solid 1px;
