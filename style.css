@@ -1,0 +1,130 @@
+.effective{
+    border: solid 1px; 
+    border-radius: 4px; 
+    margin-left: 5px; 
+    padding: 5px; 
+    width: 400px; 
+    height: 222px;
+    background-color: #f5f1f1;
+  }
+  .wrapleft
+  {
+    float: left;
+  }
+  .main-data{
+    border: solid 1px;
+    border-radius: 4px;
+    margin-left: 5px;
+    padding: 5px;
+    height: 222px;
+    float: left;
+    background-color: #f5f1f1;
+  }
+  .loaddata{
+    border: solid 1px; 
+    border-radius: 4px;
+    margin-left: 5px; 
+    padding: 5px; 
+    width: 300px; 
+    float: left; 
+    height: 210px;
+    background-color: aliceblue;
+  }
+  .texta{
+    margin-left:10px; 
+    margin-bottom: 5px; 
+    height: 120px; 
+    width: 280px;
+  }
+  .or{
+    margin-left: 5px;
+    margin-right: 10px;
+    padding: 5px;
+    width: 15px;
+    float: left;
+    font-weight: bold;
+    font-size: 1.17em;
+    margin-top: 96px;
+  }
+  h3 {
+    width: 100%; 
+    text-align: center;
+  }
+  .run {
+    border: 2px solid #1a863e;
+    padding: .2em .4em;
+    border-radius: .2em;
+    background-color: #1a863e;
+    transition: 0.5s;
+    color: white;
+    margin-left: 10px;
+    width: 180px;
+    height: 30px;
+  }
+
+  .run:hover {
+    background-color: #7ae996;
+    border: 2px solid #7ae996;
+    color: black;
+  }
+
+  input[type=file]::file-selector-button {
+    border: 2px solid #055d86;
+    padding: .2em .4em;
+    border-radius: .2em;
+    background-color: #055d86;
+    transition: 0.5s;
+    color: white;
+    height: 30px;
+    margin-left: 10px; 
+    margin-bottom: 5px;
+  }
+
+  input[type=file]::file-selector-button:hover {
+    background-color: #00cec9;
+    border: 2px solid #00cec9;
+    color: black;
+  }
+    body {
+      font-family: helvetica;
+      font-size: 14px;
+    }
+
+    .cy {
+      width: 360px;
+      height: 480px;
+      left: 0;
+      top: 0;
+      z-index: 999;
+    }
+
+    .cy2 {
+      width: 360px;
+      height: 480px;
+      left: 0;
+      top: 0;
+      z-index: 999;
+    }
+
+    .divTree{
+      width: 380px;
+      height: 480px; 
+      float: left; 
+      border: solid 1px;    
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+
+    .divTree2{
+      width: 375px;
+      height: 525px;
+      float: left;
+      border: solid 1px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+
+    h1 {
+      opacity: 0.5;
+      font-size: 1em;
+    }

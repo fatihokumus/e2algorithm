@@ -1,0 +1,101 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <script src="https://unpkg.com/weaverjs@1.2.0/dist/weaver.min.js"></script>
+  <script src="js/dagre.js"></script>
+  <script src="js/cytoscape-dagre.js"></script>
+  <script src="js/cytoscape-spread.js"></script>
+  <script src="js/layout-base.js"></script>
+  <script src="js/avsdf-base.js"></script>
+  <script src="js/cytoscape-avsdf.js"></script>
+  <script src="GraphNode.js"></script>
+  <script src="GraphEdge.js"></script>
+  <script src="GraphTree.js"></script>
+  <script src="PathFinder.js"></script>
+  <script src="index.js"></script>
+</head>
+</head>
+
+<body onload="checkFileAPI();">
+  <div style="width: 100%;height: 250px;">
+    <div class="main-data">
+      <div class="loaddata">
+        <h3>UPLOAD GRAPH FILE</h3>
+        <form enctype="multipart/form-data" onsubmit="return false;">
+          <input class="fileUpload" id="file" type="file" name="static_file" />
+          <br>
+          <button class="run" id="upload-button" onclick="readTextFile(this.form)"> Run </button>
+        </form>
+      </div>
+      <div class="or">
+        OR
+      </div>
+      <div class="loaddata">
+        <h3>PASTE GARPH TEXT</h3>
+        <textarea id="textGraph" class="texta">1, 2
+2, 3
+1, 4
+2, 5
+3, 5
+3, 7
+4, 5
+5, 6
+6, 7
+6, 8
+7, 8</textarea>
+        <br>
+        <button class="run" id="run" onclick="RunText()"> Run </button>
+      </div>
+    </div>
+
+    <div class="effective wrapleft">
+      <h3>Most Effective Edges after K-Max</h3>
+      <textarea id="EtkinDugumlerKMax" style="height: 150px; width: 400px;"></textarea>
+
+    </div>
+
+    <div class="effective wrapleft">
+      <h3>Most Effective Edges after K-Min</h3>
+      <textarea id="EtkinDugumlerKMin" style="height: 150px; width: 400px;"></textarea>
+
+    </div>
+
+  </div>
+  <br>
+  <div class="divTree2">
+    <div style="width: 100%; text-align: center;">
+      <h3>GRAPH</h3>
+
+    </div>
+    <div id="cyOrg" class="cy2"></div>
+  </div>
+
+  <div class="divTree2">
+    <div style="width: 100%; text-align: center;">
+      <h3>K-MAX TREE</h3>
+    </div>
+    <div id="cyMax" class="cy2"></div>
+
+  </div>
+
+  <div class="divTree2">
+    <div style="width: 100%; text-align: center;">
+      <h3>K-MIN TREE</h3>
+    </div>
+    <div id="cyMin" class="cy2"></div>
+
+  </div>
+  <div class="divTree2">
+    <div style="width: 100%; text-align: center;">
+      <h3>PATH</h3>
+    </div>
+    <div id="cyPath" class="cy2"></div>
+
+  </div>
+
+</body>
+
+</html>
