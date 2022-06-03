@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    
+<script>
+
+    var ogrenciler = [
+    {
+        "Id": 1,
+        "Name": "Fatih",
+        "Surname": "Okumuş",
+        "TCNo":42342343
+    },
+    {
+        "Id": 2,
+        "Name": "Ahmet",
+        "Surname": "Karadoğan",
+        "TCNo":4564654644
+    }
+    ];
+    $(document).ready(function (){
+
+        //$.getJSON("data.json", function(veri){
+            $("#data").html("");
+            var html = "";
+            for (let i = 0; i < ogrenciler.length; i++) {
+                const satir = ogrenciler[i];
+                html += "<tr>";
+                html += "<td>" + satir["Id"] + "</td>";
+                html += "<td>" + satir["Name"] + "</td>";
+                html += "<td>" + satir["Surname"] + "</td>";
+                html += "<td>" + satir["TCNo"] + "</td>";
+                html += "</tr>";    
+            }
+            $("#data").html(html);
+        //})
+    });
+</script>
+
+</head>
+    <body>
+        <h1>Öğrenci Kayıtları</h1>
+        
+        <table class="table">
+            <thead>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Adı                    
+                </th>
+                <th>
+                    Soyadı
+                </th>
+                <th>
+                    TCNo
+                </th>
+            </thead>
+            <tbody id="data">
+
+            </tbody>
+        </table>
+    </body>
+
+</html>

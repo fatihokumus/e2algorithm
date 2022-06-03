@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 function KarciDSet(graphSet) {
+    console.time('Execution Time');
     const nList = [];
     const eList = [];
     /////////// Create Nodes  
@@ -88,6 +89,7 @@ function KarciDSet(graphSet) {
 
     var finder = new PathFinder(nList, eList);
     var path = finder.Find();
+    console.timeEnd('Execution Time');
 
     ///// Prapare Drawing Data 
     var nodesList = [];
@@ -149,7 +151,17 @@ function KarciDSet(graphSet) {
         oldNode = pt._label;
     }
 
-    pathEdgeList.push({ data: { source: path[path.length - 1]._label, target: path[0]._label } });
+    firstNode = path[0];
+    lastNode = path[path.length - 1];
+
+    for (let t = 0; t < firstNode._neighbours.length; t++) {
+        const neighbour = firstNode._neighbours[t];
+        if(neighbour._id == lastNode._id)
+        {
+            pathEdgeList.push({ data: { source: path[path.length - 1]._label, target: path[0]._label } });
+        }
+    }
+    
     //////////////////////////////
     /////Draw Org Graph
     var cyOrg = cytoscape({
@@ -157,8 +169,9 @@ function KarciDSet(graphSet) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
-
-
+        zoom: 1.5,
+        minZoom: 1.5,
+        maxZoom: 1.5,
         layout: {
             name: 'avsdf'
         },
@@ -172,7 +185,10 @@ function KarciDSet(graphSet) {
                     'color': "#FFFFFF",
                     'label': 'data(id)',
                     'text-halign': 'center',
-                    'text-valign': 'center'
+                    'text-valign': 'center',
+                    'width': '15px',
+                    'height': '15px',
+                    'font-size': 10
                 },
                 classes: 'center-center'
             },
@@ -180,10 +196,13 @@ function KarciDSet(graphSet) {
             {
                 selector: 'edge',
                 style: {
-                    'width': 4,
+                    'width': 2,
                     'line-color': '#9dbaea',
                     'label': 'data(id)',
-                    'color': '#cd9d32'
+                    'color': '#000',
+                    'z-index': 1000,
+                    'font-size': 10,
+                    'font-weight': 'bold',
                 }
             }
         ],
@@ -200,7 +219,9 @@ function KarciDSet(graphSet) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
-
+        zoom: 1.5,
+        minZoom: 1.5,
+        maxZoom: 1.5,
         layout: {
             name: 'dagre'
         },
@@ -214,7 +235,10 @@ function KarciDSet(graphSet) {
                     'color': "#FFFFFF",
                     'label': 'data(id)',
                     'text-halign': 'center',
-                    'text-valign': 'center'
+                    'text-valign': 'center',
+                    'width': '15px',
+                    'height': '15px',
+                    'font-size': 10
                 },
                 classes: 'center-center'
             },
@@ -222,13 +246,16 @@ function KarciDSet(graphSet) {
             {
                 selector: 'edge',
                 style: {
-                    'width': 4,
+                    'width': 2,
                     'target-arrow-shape': 'triangle',
                     'line-color': '#9dbaea',
                     'target-arrow-color': '#9dbaea',
                     'curve-style': 'bezier',
                     'label': 'data(id)',
-                    'color': '#cd9d32'
+                    'color': '#000',
+                    'z-index': 1000,
+                    'font-size': 10,
+                    'font-weight': 'bold',
                 }
             }
         ],
@@ -245,6 +272,9 @@ function KarciDSet(graphSet) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
+        zoom: 1.5,
+        minZoom: 1.5,
+        maxZoom: 1.5,
 
         layout: {
             name: 'dagre'
@@ -258,7 +288,10 @@ function KarciDSet(graphSet) {
                     'color': "#FFFFFF",
                     'label': 'data(id)',
                     'text-halign': 'center',
-                    'text-valign': 'center'
+                    'text-valign': 'center',
+                    'width': '15px',
+                    'height': '15px',
+                    'font-size': 10
                 },
                 classes: 'center-center'
             },
@@ -266,13 +299,16 @@ function KarciDSet(graphSet) {
             {
                 selector: 'edge',
                 style: {
-                    'width': 4,
+                    'width': 2,
                     'target-arrow-shape': 'triangle',
                     'line-color': '#9dbaea',
                     'target-arrow-color': '#9dbaea',
                     'curve-style': 'bezier',
                     'label': 'data(id)',
-                    'color': '#cd9d32'
+                    'color': '#000',
+                    'z-index': 1000,
+                    'font-size': 10,
+                    'font-weight': 'bold',
                 }
             }
         ],
@@ -288,6 +324,9 @@ function KarciDSet(graphSet) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
+        zoom: 1.5,
+        minZoom: 1.5,
+        maxZoom: 1.5,
 
         layout: {
             name: 'avsdf'
@@ -301,7 +340,10 @@ function KarciDSet(graphSet) {
                     'color': "#FFFFFF",
                     'label': 'data(id)',
                     'text-halign': 'center',
-                    'text-valign': 'center'
+                    'text-valign': 'center',
+                    'width': '15px',
+                    'height': '15px',
+                    'font-size': 10
                 },
                 classes: 'center-center'
             },
@@ -309,11 +351,15 @@ function KarciDSet(graphSet) {
             {
                 selector: 'edge',
                 style: {
-                    'width': 4,
+                    'width': 2,
                     'target-arrow-shape': 'triangle',
                     'line-color': '#9dbaea',
                     'target-arrow-color': '#9dbaea',
                     'curve-style': 'bezier',
+                    'color': '#000',
+                    'z-index': 1000,
+                    'font-size': 10,
+                    'font-weight': 'bold',
                 }
             }
         ],

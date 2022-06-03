@@ -1,0 +1,14 @@
+[
+    {
+        "Id": 1,
+        "Name": "Fatih",
+        "Surname": "Okumuş",
+        "TCNo":42342343
+    },
+    {
+        "Id": 2,
+        "Name": "Ahmet",
+        "Surname": "Karadoğan",
+        "TCNo":4564654644
+    }
+]
