@@ -45,6 +45,7 @@ class PathFinder {
         var maxDegreeOtherNode;
 
         for (let i = 0; i < maxEdges.length; i++) {
+            
             const edge = maxEdges[i];
 
             // Eğer en önemli kenarın iki ucundaki düğüm de aynı dereceye sahipse komşuları ile yaptığı kenarlardaki toplam ağırlığı yüksek olan seçilir.
@@ -53,7 +54,7 @@ class PathFinder {
                 var node1Weight = this.GetNodeImportantce(edge._node1);
                 
                 var node2Weight = this.GetNodeImportantce(edge._node2);
-               
+                
                 if(node1Weight >= node2Weight)
                 {
                     maxDegree = edge._node1._degree;
@@ -88,7 +89,7 @@ class PathFinder {
                     
                 }
             }
-            
+           
         }
 
 
@@ -165,7 +166,6 @@ class PathFinder {
 
         var minDegree = this._orgNodeList.length; // Başlangıç değeri olabilecek en yüksek sayı
         var maxImportance = minDegree * minDegree; // Başlangıç değeri olabilecek en yüksek sayı
-        var maxCount = 0;
         var isNodeExist = false;
         var findedNode;
         var findedEdge;
@@ -193,42 +193,6 @@ class PathFinder {
                     return el._id == _cNode._id;
                 })[0];
                  var nodeImportance =   this.GetNodeImportantce(_cNode);
-                // if(nodeImportance > maxImportance)
-                // {
-                //     minDegree = _cNode._degree;
-                //     findedNode = _cNode;
-                //     maxImportance = nodeImportance;
-                //     isNodeExist = true;
-                // }
-                // else if(nodeImportance == maxImportance)
-                // {
-                //     if(_cNode._degree < minDegree)
-                //     {
-                //         minDegree = _cNode._degree;
-                //         findedNode = _cNode;
-                //         maxImportance = nodeImportance;
-                //         isNodeExist = true;
-                //     }
-                // }
-
-                
-                // if(element._cutCount > maxCount)
-                // {
-                //     minDegree = _cNode._degree;
-                //     findedNode = _cNode;
-                //     maxCount = element._cutCount;
-                //     isNodeExist = true;
-                // }
-                // else if(element._cutCount == maxCount)
-                // {
-                //     if(_cNode._degree < minDegree)
-                //     {
-                //         minDegree = _cNode._degree;
-                //         findedNode = _cNode;
-                //         maxCount = element._cutCount;
-                //         isNodeExist = true;
-                //     }
-                // }
 
                 if(fNode._degree < minDegree)
                 {
@@ -249,27 +213,25 @@ class PathFinder {
                     }
                 }
 
-                // if(_cNode._degree < minDegree)
+                // if(nodeImportance < maxImportance)
                 // {
-                //     minDegree = _cNode._degree;
-                //     findedNode = _cNode;
-                //     maxImportance = nodeImportance;
-                //     isNodeExist = true;
+                //      findedNode = fNode;
+                //      findedEdge = element;
+                //      maxImportance = nodeImportance;
+                //      isNodeExist = true;
                 // }
-                // else if(_cNode._degree == minDegree)
+                //  else if(nodeImportance == maxImportance)
                 // {
-                //     if(nodeImportance < maxImportance)
+                //     if(fNode._degree < minDegree)
                 //     {
-                //         findedNode = _cNode;
+                //         minDegree = fNode._degree;
+                //         findedNode = fNode;
+                //         findedEdge = element;
                 //         maxImportance = nodeImportance;
                 //         isNodeExist = true;
                 //     }
                 // }
-                
             }
-           
-            
-            
         }
 
         _currentNode = findedNode;
@@ -289,7 +251,7 @@ class PathFinder {
                 return ((nl._node1._id == node._id && nl._node2._id == neighbour._id) || (nl._node2._id == node._id && nl._node1._id == neighbour._id));
             });
 
-            if(findedge._isInPath == false)
+            if(findedge[0]._isInPath == false)
                 importance += findedge[0]._cutCount;
         }
         return importance;

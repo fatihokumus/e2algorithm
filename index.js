@@ -1,4 +1,7 @@
-
+var cyOrg;
+var cyMax;
+var cyMin;
+var cyPath;
 window.addEventListener('DOMContentLoaded', function () {
     let graphSet = [
         [1, 2],
@@ -164,14 +167,12 @@ function KarciDSet(graphSet) {
     
     //////////////////////////////
     /////Draw Org Graph
-    var cyOrg = cytoscape({
+    cyOrg = cytoscape({
         container: document.getElementById('cyOrg'),
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        zoom: 1.5,
-        minZoom: 1.5,
-        maxZoom: 1.5,
+      
         layout: {
             name: 'avsdf'
         },
@@ -214,14 +215,12 @@ function KarciDSet(graphSet) {
     });
 
     /////Draw KMax Tree
-    var cyMax = cytoscape({
+    cyMax = cytoscape({
         container: document.getElementById('cyMax'),
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        zoom: 1.5,
-        minZoom: 1.5,
-        maxZoom: 1.5,
+        
         layout: {
             name: 'dagre'
         },
@@ -267,14 +266,12 @@ function KarciDSet(graphSet) {
     });
 
      /////Draw KMin Tree
-    var cyMin = cytoscape({
+    cyMin = cytoscape({
         container: document.getElementById('cyMin'),
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        zoom: 1.5,
-        minZoom: 1.5,
-        maxZoom: 1.5,
+ 
 
         layout: {
             name: 'dagre'
@@ -319,14 +316,12 @@ function KarciDSet(graphSet) {
         }
     });
     /////Draw Hamilton Cycle
-    var cyPath = cytoscape({
+    cyPath = cytoscape({
         container: document.getElementById('cyPath'),
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        zoom: 1.5,
-        minZoom: 1.5,
-        maxZoom: 1.5,
+
 
         layout: {
             name: 'avsdf'
@@ -446,3 +441,79 @@ function GetGraphSetFromText(text) {
 
     return graphSet;
 } 
+
+var fullscreen = false;
+var fullscreenObj;
+var fullscreenCyObj;
+function FullScreen(obj, cyObj)
+{
+    if(cyObj == "cyMin")
+    {
+        fullscreenCyObj = cyMin;
+    }
+    else if(cyObj == "cyMax")
+    {
+        fullscreenCyObj = cyMax;
+    }
+    else if(cyObj == "cyOrg")
+    {
+        fullscreenCyObj = cyOrg;
+    }
+    else if(cyObj == "cyPath")
+    {
+        fullscreenCyObj = cyPath;
+    }
+    
+    fullscreenObj = document.getElementById(obj);
+    if(fullscreen == false)
+    {
+       
+        if(fullscreenObj.requestFullscreen){
+            fullscreenObj.requestFullscreen();
+        }
+        else if(fullscreenObj.mozRequestFullScreen){
+            fullscreenObj.mozRequestFullScreen();
+        }
+        else if(fullscreenObj.webkitRequestFullscreen){
+            fullscreenObj.webkitRequestFullscreen();
+        }
+        else if(fullscreenObj.msRequestFullscreen){
+            fullscreenObj.msRequestFullscreen();
+        }
+
+        setTimeout(() => {
+            fullscreenCyObj.resize();
+            fullscreenCyObj.fit();
+        }, 100);
+        
+        fullscreen = true;
+    }
+    else
+    {
+        if(document.exitFullscreen){
+            document.exitFullscreen();
+        }
+        else if(document.mozCancelFullScreen){
+            document.mozCancelFullScreen();
+        }
+        else if(document.webkitExitFullscreen){
+            document.webkitExitFullscreen();
+        }
+        else if(document.msExitFullscreen){
+            document.msExitFullscreen();
+        }
+
+       
+
+        setTimeout(() => {
+            fullscreenCyObj.resize();
+            fullscreenCyObj.fit();
+        }, 100);
+
+        fullscreen = false;
+
+        
+    }
+    
+    
+}

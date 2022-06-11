@@ -21,7 +21,7 @@
 
 <body onload="checkFileAPI();">
   <div style="width: 100%;height: 250px;">
-    
+
     <div class="loaddata">
       <h3>UPLOAD GRAPH FILE</h3>
       <form enctype="multipart/form-data" onsubmit="return false;">
@@ -49,8 +49,44 @@
       <br>
       <button class="run" id="run" onclick="RunText()"> Run </button>
     </div>
-  
 
+
+
+
+  </div>
+  <br>
+  <div id="divOrg" class="divTree">
+    <div style="width: 100%; text-align: center;">
+      <h3>GRAPH <button class="fullscreen" onclick="FullScreen('divOrg', 'cyOrg')"><img height="24px" src="fullscreen_icon.png" /></button></h3>
+
+    </div>
+    <div id="cyOrg" class="cy2"></div>
+  </div>
+
+  <div id="divKmax" class="divTree">
+    <div style="width: 100%; text-align: center;">
+      <h3>K-MAX TREE <button class="fullscreen" onclick="FullScreen('divKmax', 'cyMax')"><img height="24px" src="fullscreen_icon.png" /></button></h3>
+    </div>
+    <div id="cyMax" class="cy2"></div>
+
+  </div>
+
+  <div id="divKmin" class="divTree">
+    <div style="width: 100%; text-align: center;">
+      <h3>K-MIN TREE <button class="fullscreen" onclick="FullScreen('divKmin', 'cyMin')"><img height="24px" src="fullscreen_icon.png" /></button></h3> 
+    </div>
+    <div id="cyMin" class="cy2"></div>
+
+  </div>
+  <div id="divPath"  class="divTree">
+    <div style="width: 100%; text-align: center;">
+      <h3>PATH <button class="fullscreen" onclick="FullScreen('divPath', 'cyPath')"><img height="24px" src="fullscreen_icon.png" /></button></h3>
+    </div>
+    <div id="cyPath" class="cy2"></div>
+
+  </div>
+
+  <div>
     <div class="effective wrapleft">
       <h3>Most Effective Edges after K-Max</h3>
       <textarea id="EtkinDugumlerKMax" style="height: 150px; width: 400px;"></textarea>
@@ -62,39 +98,8 @@
       <textarea id="EtkinDugumlerKMin" style="height: 150px; width: 400px;"></textarea>
 
     </div>
-
-  </div>
-  <br>
-  <div class="divTree2">
-    <div style="width: 100%; text-align: center;">
-      <h3>GRAPH</h3>
-
-    </div>
-    <div id="cyOrg" class="cy2"></div>
   </div>
 
-  <div class="divTree2">
-    <div style="width: 100%; text-align: center;">
-      <h3>K-MAX TREE</h3>
-    </div>
-    <div id="cyMax" class="cy2"></div>
-
-  </div>
-
-  <div class="divTree2">
-    <div style="width: 100%; text-align: center;">
-      <h3>K-MIN TREE</h3>
-    </div>
-    <div id="cyMin" class="cy2"></div>
-
-  </div>
-  <div class="divTree2">
-    <div style="width: 100%; text-align: center;">
-      <h3>PATH</h3>
-    </div>
-    <div id="cyPath" class="cy2"></div>
-
-  </div>
 
 </body>
 
