@@ -1,7 +1,13 @@
 
 var _maxCount;
 var _currentNode; // seçilen düğüm
+var _currentEdge; // seçilen düğüm
 var _cNode; // Seçilen düğüme komşu düğüm
+var _firstNode; // ilk düğüm
+var minDegree; // Başlangıç değeri olabilecek en yüksek sayı
+var maxImportance; // Başlangıç değeri olabilecek en yüksek sayı
+var isNodeExist;
+var findedNode;
 class PathFinder {
     _orgNodeList;
     _nodeList;
@@ -94,6 +100,7 @@ class PathFinder {
 
 
         _currentNode = maxDegreeNode;
+        _firstNode = maxDegreeNode;
         this.AddPath();
         
         _currentNode = maxDegreeOtherNode;
@@ -101,7 +108,15 @@ class PathFinder {
 
         var isNodeExist = true;
         while (isNodeExist) {
-            isNodeExist = this.GetMinDegreeNeighbour();
+            var lastNode = this.CheckLastNode();
+            if(lastNode ==null)
+                isNodeExist = this.GetMinDegreeNeighbour();
+            else
+            {
+                _currentNode = lastNode;
+                isNodeExist = true;
+            }
+            
             if(isNodeExist)
             {
                 this.AddPath();
@@ -117,8 +132,9 @@ class PathFinder {
             return el._id == _currentNode._id;
         })[0];
 
+        node._isInPath = true;
         this._path.push(node);
-
+        
         this.DecreaseNeighboursDegree(node);
 
         // var edgeList = this._edgeList.filter(function (el) {
@@ -157,6 +173,34 @@ class PathFinder {
         // }
     }
 
+    CheckLastNode()
+    {
+        var countfiltered = this._nodeList.filter(function(element){
+            return element._isInPath == false;
+        });
+        
+        if(countfiltered.length == 2)
+        {
+            var node1= countfiltered[0];
+
+            var node2= countfiltered[1];
+
+            var node1Last = node1._neighbours.some(e => e._id === _firstNode._id);
+            
+            var node2Last = node2._neighbours.some(e => e._id === _firstNode._id);
+            
+            if(node1Last == true)
+                return node2;
+            else if(node2Last == true)    
+                return node1;
+            else
+                return null;
+
+        }
+        else
+            return null;
+
+    }
     GetMinDegreeNeighbour()
     {
         var edgeList = this._edgeList.filter(function (el) {
@@ -164,22 +208,28 @@ class PathFinder {
             return row;
         });
 
-        var minDegree = this._orgNodeList.length; // Başlangıç değeri olabilecek en yüksek sayı
-        var maxImportance = minDegree * minDegree; // Başlangıç değeri olabilecek en yüksek sayı
-        var isNodeExist = false;
-        var findedNode;
-        var findedEdge;
+
+        minDegree = this._orgNodeList.length; // Başlangıç değeri olabilecek en yüksek sayı
+        maxImportance = minDegree * minDegree; // Başlangıç değeri olabilecek en yüksek sayı
+        isNodeExist = false;
+
         for (let i = 0; i < edgeList.length; i++) {
-            const element = edgeList[i];
+            _currentEdge = edgeList[i];
+
+            // var findedEdge = this._edgeList.filter(function (nl) {
+            //     return nl._id == _currentEdge._id;
+            // })[0];
+
+
 
             _cNode = null;
-            if(element._node1._id == _currentNode._id)
+            if(_currentEdge._node1._id == _currentNode._id)
             {
-                _cNode = element._node2;
+                _cNode = _currentEdge._node2;
             }
             else
             {
-                _cNode = element._node1;
+                _cNode = _currentEdge._node1;
             }
 
             var isIncludePath = this._path.filter(function(el)
@@ -198,7 +248,6 @@ class PathFinder {
                 {
                     minDegree = fNode._degree;
                     findedNode = fNode;
-                    findedEdge = element;
                     maxImportance = nodeImportance;
                     isNodeExist = true;
                 }
@@ -207,7 +256,6 @@ class PathFinder {
                     if(nodeImportance < maxImportance)
                     {
                         findedNode = fNode;
-                        findedEdge = element;
                         maxImportance = nodeImportance;
                         isNodeExist = true;
                     }
@@ -216,7 +264,6 @@ class PathFinder {
                 // if(nodeImportance < maxImportance)
                 // {
                 //      findedNode = fNode;
-                //      findedEdge = element;
                 //      maxImportance = nodeImportance;
                 //      isNodeExist = true;
                 // }
@@ -226,7 +273,6 @@ class PathFinder {
                 //     {
                 //         minDegree = fNode._degree;
                 //         findedNode = fNode;
-                //         findedEdge = element;
                 //         maxImportance = nodeImportance;
                 //         isNodeExist = true;
                 //     }
@@ -235,9 +281,7 @@ class PathFinder {
         }
 
         _currentNode = findedNode;
-        if(findedEdge != undefined && findedEdge!= null)
-            findedEdge._isInPath = true;
-
+        
         return isNodeExist;
 
     }
@@ -251,8 +295,10 @@ class PathFinder {
                 return ((nl._node1._id == node._id && nl._node2._id == neighbour._id) || (nl._node2._id == node._id && nl._node1._id == neighbour._id));
             });
 
-            if(findedge[0]._isInPath == false)
-                importance += findedge[0]._cutCount;
+            // const isInPath = this._path.some(e => e._id === neighbour._id);
+
+            // if(isInPath == false)
+            importance += findedge[0]._cutCount;
         }
         return importance;
     }

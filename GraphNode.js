@@ -14,13 +14,13 @@ class GraphNode {
     _queeIndex; // Kuyruktaki sırası (ağaca girme sırası)
     _maxParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
     _minParentNodeEdge; //Ağaca girdikten sonra ata düğümle yaptığı kenar bağlantısı (hızlı ulaşmak için)
-    _isInTree; // ağaca girmişse tekrar bakmamak için
+    _isInPath; // Yola eklendi mi
     _neighbours;
 
     constructor(label, id) {
         this._label = label;
         this._id = id;
-        this._isInTree = false;
+        this._isInPath = false;
         this._degree = 0;
         this._maxLevel =0;
         this._minLevel =0;
