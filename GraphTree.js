@@ -149,7 +149,6 @@ class GraphTree {
                         parentNode._maxChildren.push(child);
                         child._maxLevel = i;
                         child._queeIndex = qi;
-                        child._isInTree = true;
 
                         var edge = this._edgeList.filter(function (el) {
                             var row = (el._node1._id == _currentObject._id && el._node2._id == child._id) || (el._node1._id == child._id && el._node2._id == _currentObject._id);
@@ -243,7 +242,6 @@ class GraphTree {
                         parentNode._minChildren.push(child);
                         child._minLevel = i;
                         child._queeIndex = qi;
-                        child._isInTree = true;
 
                         var edge = this._edgeList.filter(function (el) {
                             var row = (el._node1._id == _currentObject._id && el._node2._id == child._id) || (el._node1._id == child._id && el._node2._id == _currentObject._id);
